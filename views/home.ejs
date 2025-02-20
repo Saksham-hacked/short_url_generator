@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            text-align: center;
+            margin-top: 100px;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <% if (locals.id) { %>
+        <p>Shortened URL: <a href="http://localhost:8001/url/<%= locals.id %>/" target="_blank">https://localhost:8001/url/<%= locals.id %>/</a></p>
+    <% } %>
+
+    <h1>URL SHORTENER</h1> 
+    <form method="post" action="/url">
+        <label>Enter your original URL</label>
+        <input type="text" name="url" placeholder="https://example.com" id="url" required>
+        <button type="submit" id="submit">Shorten</button>
+    </form>
+
+    <% if (locals.urls && locals.urls.length > 0) { %>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>ShortID</th>
+                        <th>Redirect</th>
+                        <th>Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= url.shortId %></td>
+                            <td><a href="<%= url.redirectUrl %>" target="_blank"><%= url.redirectUrl %></a></td>
+                            <td><%= url.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+
+</body>
+</html>
